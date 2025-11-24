@@ -4,6 +4,31 @@ let isOpen = false;
 let particleInterval;
 let magicTimeout;
 
+// BOTÃO FAIRE VOLER LES PAGES
+const scatterButton = document.getElementById('scatterPages');
+
+scatterButton.addEventListener('click', () => {
+    if (!isOpen) return;
+
+    const pages = document.querySelectorAll('.page');
+
+    // Anima as páginas com pequenos delays
+    pages.forEach((page, index) => {
+        setTimeout(() => page.classList.add('scatter'), index * 150);
+    });
+
+    // Cria partículas mágicas saindo do centro do livro
+    for (let i = 0; i < 70; i++) {
+        setTimeout(createParticle, i * 20);
+    }
+
+    // Remove a classe scatter após a animação
+    setTimeout(() => {
+        pages.forEach(page => page.classList.remove('scatter'));
+    }, 2600);
+});
+
+// FUNÇÕES PRINCIPAIS
 function playSound(audioId) {
     const audio = document.getElementById(audioId);
     if (audio) {
@@ -23,9 +48,9 @@ function toggleBook() {
     if (isOpen) {
         bookContainer.classList.add('open');
         const pageTurnDelay = 200;
-        setTimeout(() => { playSound('soundPage'); }, 300);
-        setTimeout(() => { playSound('soundPage'); }, 300 + pageTurnDelay);
-        setTimeout(() => { playSound('soundPage'); }, 300 + 2 * pageTurnDelay);
+        setTimeout(() => playSound('soundPage'), 300);
+        setTimeout(() => playSound('soundPage'), 300 + pageTurnDelay);
+        setTimeout(() => playSound('soundPage'), 300 + 2 * pageTurnDelay);
         magicTimeout = setTimeout(startMagic, 2200);
     } else {
         bookContainer.classList.remove('open');
@@ -34,7 +59,7 @@ function toggleBook() {
     }
 }
 
-// Criação de partículas centradas no traço vertical do livro
+// CRIAÇÃO DE PARTÍCULAS DO CENTRO DO LIVRO
 function createParticle() {
     if (!isOpen) return;
 
@@ -45,19 +70,16 @@ function createParticle() {
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
 
-    let colors;
-    if (body.classList.contains('dark-mode')) {
-        colors = ['#ffffff', '#cfcfcf', '#a0a0ff', '#ffd700', '#e0e0ff'];
-    } else {
-        colors = ['#ffd700', '#ff9a9e', '#a18cd1', '#ffffff', '#ffb6c1'];
-    }
+    const colors = body.classList.contains('dark-mode')
+        ? ['#ffffff', '#cfcfcf', '#a0a0ff', '#ffd700', '#e0e0ff']
+        : ['#ffd700', '#ff9a9e', '#a18cd1', '#ffffff', '#ffb6c1'];
 
     const color = colors[Math.floor(Math.random() * colors.length)];
     particle.style.background = color;
     particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
     const rect = bookContainer.getBoundingClientRect();
-    const startX = rect.left + rect.width / 2; // linha central do livro
+    const startX = rect.left + rect.width / 2;
     const startY = rect.top + rect.height / 2 + (Math.random() * 120 - 60);
 
     particle.style.left = `${startX}px`;
@@ -74,19 +96,17 @@ function createParticle() {
 
     document.body.appendChild(particle);
 
-    setTimeout(() => { particle.remove(); }, duration * 1000);
+    setTimeout(() => particle.remove(), duration * 1000);
 }
 
-// Inicia magia com explosão intensa de partículas
+// INICIA MAGIA COM EXPLOSÃO INTENSA DE PARTÍCULAS
 function startMagic() {
     stopMagic();
 
-    // Explosão inicial muito mais intensa
     for (let i = 0; i < 100; i++) {
         setTimeout(createParticle, i * 15);
     }
 
-    // Fluxo contínuo mais rápido
     particleInterval = setInterval(createParticle, 15);
 }
 
