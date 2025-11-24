@@ -193,24 +193,19 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 .book-container.open .p3 { transform: rotateY(-10deg); transition-delay: 0.5s; background: linear-gradient(to right, #ddd, var(--page-color) 10%); border-left: none; }
 
 /* --- ANIMAÇÃO PÁGINAS VOANDO --- */
-.page.scatter {
-  animation: scatterPage 2.5s ease-out forwards;
+.page.fly {
+  position: absolute;
   transform-origin: center;
+  animation: flyPage 3s ease-out forwards;
+  z-index: 1000;
 }
 
-@keyframes scatterPage {
-  0% {
-    transform: rotateY(0deg) translate(0, 0) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: rotateY(180deg) translateX(150px) translateY(-200px) rotate(90deg);
-    opacity: 0.7;
-  }
-  100% {
-    transform: rotateY(360deg) translateX(300px) translateY(-500px) rotate(180deg);
-    opacity: 0;
-  }
+@keyframes flyPage {
+  0% { transform: rotateY(0deg) rotateX(0deg) translate(0,0); opacity: 1; }
+  25% { transform: rotateY(90deg) rotateX(20deg) translate(30px,-50px); opacity: 0.9; }
+  50% { transform: rotateY(180deg) rotateX(60deg) translate(100px,-150px); opacity: 0.7; }
+  75% { transform: rotateY(270deg) rotateX(120deg) translate(200px,-250px); opacity: 0.5; }
+  100% { transform: rotateY(360deg) rotateX(180deg) translate(300px,-400px); opacity: 0; }
 }
 
 /* --- PARTICULAS --- */
