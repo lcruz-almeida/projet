@@ -4,12 +4,39 @@ let isOpen = false;
 let particleInterval;
 let magicTimeout;
 
+// Cores mágicas para partículas
 const colors = ['#ffd700', '#ff9a9e', '#a18cd1', '#ffffff', '#84fab0'];
 
+// FUNÇÃO PARA TOCAR SOM
+function playSound(audioId) {
+    const audio = document.getElementById(audioId);
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Erro de áudio: " + e));
+    }
+}
+
+// Alternar tema (dark/light)
+function toggleTheme() {
+    body.classList.toggle('dark-mode');
+    body.style.transition = 'background 1.5s ease, color 1.5s ease';
+    setTimeout(() => { body.style.transition = ''; }, 1600);
+}
+
+// Abrir/fechar livro
 function toggleBook() {
     isOpen = !isOpen;
+
     if (isOpen) {
         bookContainer.classList.add('open');
+
+        // Sons das páginas
+        const pageTurnDelay = 200;
+        setTimeout(() => playSound('soundPage'), 300);
+        setTimeout(() => playSound('soundPage'), 300 + pageTurnDelay);
+        setTimeout(() => playSound('soundPage'), 300 + 2 * pageTurnDelay);
+
+        // Iniciar partículas mágicas após páginas viradas
         magicTimeout = setTimeout(startMagic, 500);
     } else {
         bookContainer.classList.remove('open');
@@ -18,66 +45,88 @@ function toggleBook() {
     }
 }
 
+// CRIAR PARTÍCULAS MÁGICAS
 function createParticle() {
     if (!isOpen) return;
+
     const particle = document.createElement('div');
     particle.classList.add('particle');
-    const size = Math.random() * 14 + 5;
+
+    const size = Math.random() * 12 + 4;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
-    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    let currentColors = body.classList.contains('dark-mode')
+        ? ['#ffffff', '#cfcfcf', '#a0a0ff', '#ffd700', '#e0e0ff']
+        : colors;
+
+    const color = currentColors[Math.floor(Math.random() * currentColors.length)];
     particle.style.background = color;
-    particle.style.boxShadow = `0 0 ${size*3}px ${color}`;
+    particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
+
     const rect = bookContainer.getBoundingClientRect();
     const startX = rect.left + rect.width / 2;
     const startY = rect.top + rect.height / 2;
+
     particle.style.left = `${startX}px`;
     particle.style.top = `${startY}px`;
-    const tx = (Math.random() - 0.5) * 400;
-    const ty = (Math.random() - 0.5) * 800;
-    const duration = 2 + Math.random() * 2;
-    particle.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
-    requestAnimationFrame(() => {
-        particle.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random()*720}deg)`;
-        particle.style.opacity = 0;
-    });
+
+    const tx = (Math.random() - 0.5) * 120;
+    const txEnd = (Math.random() - 0.5) * 700;
+
+    particle.style.setProperty('--tx', `${tx}px`);
+    particle.style.setProperty('--tx-end', `${txEnd}px`);
+
+    const duration = Math.random() * 2 + 2;
+    particle.style.animation = `floatUp ${duration}s ease-out forwards`;
+
     document.body.appendChild(particle);
-    setTimeout(() => particle.remove(), duration*1000);
+
+    setTimeout(() => particle.remove(), duration * 1000);
 }
 
 function startMagic() {
     stopMagic();
-    for(let i=0;i<50;i++) setTimeout(createParticle, i*30);
+    for(let i = 0; i < 50; i++) setTimeout(createParticle, i * 25);
     particleInterval = setInterval(createParticle, 25);
 }
 
 function stopMagic() {
-    if(particleInterval) clearInterval(particleInterval);
+    if (particleInterval) clearInterval(particleInterval);
 }
 
+// FAZER AS PÁGINAS VOAREM PELO ECRÃ
 function flyPages() {
-    const pages = document.querySelectorAll('.page.inner-page');
+    const pages = document.querySelectorAll('.page:not(.front-cover):not(.back-cover)');
+
     pages.forEach((page, i) => {
         setTimeout(() => {
-            const clone = page.cloneNode(true);
+            const flyingPage = page.cloneNode(true);
             const rect = page.getBoundingClientRect();
-            clone.style.position = 'absolute';
-            clone.style.left = `${rect.left}px`;
-            clone.style.top = `${rect.top}px`;
-            clone.style.width = `${page.offsetWidth}px`;
-            clone.style.height = `${page.offsetHeight}px`;
-            clone.style.zIndex = 1000;
-            document.body.appendChild(clone);
+
+            flyingPage.style.position = 'absolute';
+            flyingPage.style.left = `${rect.left}px`;
+            flyingPage.style.top = `${rect.top}px`;
+            flyingPage.style.width = `${rect.width}px`;
+            flyingPage.style.height = `${rect.height}px`;
+            flyingPage.style.zIndex = 1000;
+            flyingPage.style.pointerEvents = 'none';
+            flyingPage.style.transition = 'transform 4s ease-out, opacity 4s ease-out';
+
+            document.body.appendChild(flyingPage);
+
+            // Trajetória aleatória simulando vento
             const endX = (Math.random() - 0.5) * window.innerWidth * 2;
-            const endY = -Math.random() * window.innerHeight * 1.5 - window.innerHeight;
-            const rotate = (Math.random() - 0.5) * 1080;
-            const duration = 3 + Math.random()*2;
-            clone.style.transition = `transform ${duration}s ease-in-out, opacity ${duration}s ease-in-out`;
+            const endY = (Math.random() - 0.5) * window.innerHeight * 2;
+            const rotateX = (Math.random() - 0.5) * 1080;
+            const rotateY = (Math.random() - 0.5) * 1080;
+
             requestAnimationFrame(() => {
-                clone.style.transform = `translate(${endX}px, ${endY}px) rotate(${rotate}deg)`;
-                clone.style.opacity = 0;
+                flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                flyingPage.style.opacity = 0;
             });
-            setTimeout(() => clone.remove(), duration*1000);
-        }, i*100);
+
+            setTimeout(() => flyingPage.remove(), 4000);
+        }, i * 100);
     });
 }
