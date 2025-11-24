@@ -192,6 +192,28 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 .book-container.open .p2 { transform: rotateY(-160deg); transition-delay: 0.3s; }
 .book-container.open .p3 { transform: rotateY(-10deg); transition-delay: 0.5s; background: linear-gradient(to right, #ddd, var(--page-color) 10%); border-left: none; }
 
+/* --- ANIMAÇÃO PÁGINAS VOANDO --- */
+.page.scatter {
+  animation: scatterPage 2.5s ease-out forwards;
+  transform-origin: center;
+}
+
+@keyframes scatterPage {
+  0% {
+    transform: rotateY(0deg) translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateY(180deg) translateX(150px) translateY(-200px) rotate(90deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotateY(360deg) translateX(300px) translateY(-500px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* --- PARTICULAS --- */
 .particle {
   position: absolute;
   border-radius: 50%;
