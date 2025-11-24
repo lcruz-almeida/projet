@@ -84,14 +84,11 @@ function createParticle() {
     setTimeout(() => particle.remove(), duration * 1000);
 }
 
-// Iniciar partículas mágicas
 function startMagic() {
     stopMagic();
-    for (let i = 0; i < 70; i++) setTimeout(createParticle, i * 10);
-    particleInterval = setInterval(createParticle, 20);
-}
+    for(let i = 0; i < 70; i++) setTimeout(createParticle, i * 25); 
+    particleInterval = setInterval(createParticle, 20); 
 
-// Parar partículas mágicas
 function stopMagic() {
     if (particleInterval) clearInterval(particleInterval);
 }
