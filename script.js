@@ -80,35 +80,41 @@ function stopMagic() {
 }
 
 function flyPages() {
-  // Seleciona apenas as páginas internas, excluindo capa e contracapa
   const pages = document.querySelectorAll('.page:not(.front-cover):not(.back-cover)');
-  
+
   pages.forEach((page, i) => {
     setTimeout(() => {
       const flyingPage = page.cloneNode(true);
+
       flyingPage.style.position = 'absolute';
-      flyingPage.style.left = `${page.getBoundingClientRect().left}px`;
-      flyingPage.style.top = `${page.getBoundingClientRect().top}px`;
+      const rect = page.getBoundingClientRect();
+      flyingPage.style.left = `${rect.left}px`;
+      flyingPage.style.top = `${rect.top}px`;
       flyingPage.style.width = `${page.offsetWidth}px`;
       flyingPage.style.height = `${page.offsetHeight}px`;
-      flyingPage.style.transition = 'transform 3s ease-out, opacity 3s ease-out';
       flyingPage.style.zIndex = 1000;
+
+      // Trajetória aleatória
+      const endX = (Math.random() - 0.5) * window.innerWidth * 2; // largura do voo
+      const endY = (Math.random() - 0.5) * window.innerHeight * 2; // altura do voo
+      const rotateDeg = Math.random() * 1080 - 540; // rotação entre -540º e 540º
+      const duration = 3 + Math.random() * 2; // duração aleatória 3-5s
+
+      flyingPage.style.transition = `transform ${duration}s ease-in-out, opacity ${duration}s ease-in-out`;
 
       document.body.appendChild(flyingPage);
 
-      // Posição final aleatória (simula vento)
-      const endX = (Math.random() - 0.5) * window.innerWidth;
-      const endY = -Math.random() * window.innerHeight;
-
+      // Animação
       requestAnimationFrame(() => {
-        flyingPage.style.transform = `translate(${endX}px, ${endY}px)`;
+        flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotate(${rotateDeg}deg)`;
         flyingPage.style.opacity = 0;
       });
 
-      setTimeout(() => flyingPage.remove(), 3000);
+      setTimeout(() => flyingPage.remove(), duration * 1000);
 
     }, i * 100);
   });
 }
+
 
 
