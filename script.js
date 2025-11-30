@@ -38,16 +38,9 @@ function toggleBook() {
         setTimeout(() => playSound('soundPage'), 300);
         setTimeout(() => playSound('soundPage'), 300 + pageTurnDelay);
         setTimeout(() => playSound('soundPage'), 300 + 2 * pageTurnDelay);
-
-        // Iniciar partículas mágicas após páginas viradas
-        magicTimeout = setTimeout(startMagic, 500);
-    } else {
-        bookContainer.classList.remove('open');
-        clearTimeout(magicTimeout);
-        stopMagic();
-    }
 }
 
+    
 // CRIAR PARTÍCULAS MÁGICAS
 function createParticle() {
     if (!isOpen) return;
