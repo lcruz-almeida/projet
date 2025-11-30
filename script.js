@@ -173,29 +173,53 @@ function shakeBook() {
 
 
 // BUTTON FEU
+// BUTTON FEU
 function spawnFire() {
-    if (!isOpen) return; // só cria fogo se o livro estiver aberto
+    // Só cria fogo se o livro estiver aberto
+    if (!isOpen) return;
 
+    // Pegar o centro do livro aberto usando #particleOrigin
     const origin = document.getElementById('particleOrigin').getBoundingClientRect();
-    const startX = origin.left + origin.width / 2 - 6; // centrado
-    const startY = origin.top + origin.height / 2 - 6; // centrado
+    const startX = origin.left + origin.width / 2;
+    const startY = origin.top + origin.height / 2;
 
+    // Criar uma chama
     const flame = document.createElement("div");
     flame.classList.add("fire");
 
-    // posição inicial
+    // Posicionar a chama no centro do livro aberto
     flame.style.left = `${startX}px`;
     flame.style.top = `${startY}px`;
 
-    // tamanho aleatório
+    // Tamanho aleatório para variedade
     const size = Math.random() * 12 + 6;
     flame.style.width = `${size}px`;
     flame.style.height = `${size}px`;
 
+    // Adicionar ao body
     document.body.appendChild(flame);
 
+    // Remover automaticamente após a animação
     setTimeout(() => flame.remove(), 1200);
 }
+
+// Começar fogo
+function startFire() {
+    if (fireInterval) return;
+    fireInterval = setInterval(spawnFire, 80);
+}
+
+// Parar fogo
+function stopFire() {
+    clearInterval(fireInterval);
+    fireInterval = null;
+}
+
+function toggleFire() {
+    if (fireInterval) stopFire();
+    else startFire();
+}
+
 
 
 
