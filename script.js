@@ -191,7 +191,7 @@ function spawnFire() {
     flame.style.top = `${startY}px`;
 
     // Tamanho aleatório
-    const size = Math.random() * 12 + 6;
+    const size = Math.random() * 20 + 10;
     flame.style.width = `${size}px`;
     flame.style.height = `${size}px`;
 
