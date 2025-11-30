@@ -173,8 +173,6 @@ function shakeBook() {
 
 
 // BUTTON FEU
-let fireInterval = null;
-
 function spawnFire() {
     // Só cria fogo se o livro estiver aberto
     if (!isOpen) return;
