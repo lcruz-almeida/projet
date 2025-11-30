@@ -70,14 +70,14 @@ function createParticle() {
     particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
     // posição inicial: centro da lombada
-    const spineEl = document.getElementById('spineOrigin');
-    if (!spineEl) return; // evita erro se o elemento não existir
-    const spineRect = spineEl.getBoundingClientRect();
-    const startX = spineRect.left + spineRect.width / 2;
-    const startY = spineRect.top + spineRect.height / 2;
+   const spineEl = document.getElementById('spineOrigin');
+   const spineRect = spineEl.getBoundingClientRect();
+   const startX = spineRect.left + spineRect.width / 2;
+   const startY = spineRect.top + spineRect.height / 2;
 
-particle.style.left = `${startX}px`;
-particle.style.top = `${startY}px`;
+   particle.style.left = `${startX}px`;
+   particle.style.top = `${startY}px`;
+
 
 
     // trajetórias aleatórias
