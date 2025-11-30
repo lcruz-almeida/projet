@@ -67,9 +67,9 @@ function createParticle() {
     particle.style.background = color;
     particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
-    const spine = document.querySelector('.spine').getBoundingClientRect();
-    const startX = spine.left + spine.width / 2;
-    const startY = spine.top + spine.height / 2;
+    const bookRect = bookContainer.getBoundingClientRect();
+    const startX = bookRect.left + bookRect.width / 2;
+    const startY = bookRect.top + bookRect.height / 2;
 
 
     particle.style.left = `${startX}px`;
