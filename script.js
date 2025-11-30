@@ -202,10 +202,8 @@ function resetBook() {
         lumiereInterval = null;
     }
 
-    // Se o tema estiver ativo, desativa-o
-    if (document.body.classList.contains("dark-theme")) {
-        toggleTheme();
-    }
+      // DESATIVAR SEMPRE o dark theme, sem depender de toggleTheme
+    document.body.classList.remove("dark-theme");
 
     // Remove TODAS as partículas do ecrã
     document.querySelectorAll('.particle, .fire, .lumiere-particle').forEach(el => el.remove());
