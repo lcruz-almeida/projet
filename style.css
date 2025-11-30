@@ -257,6 +257,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
 
 
+
 /* --- SECOUER--- */
 @keyframes shakeOpen {
   0% { transform: translate(0,0) rotate(0deg); }
