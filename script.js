@@ -173,7 +173,8 @@ function shakeBook() {
 
 
 // BUTTON FEU
-// BUTTON FEU
+let fireInterval = null;
+
 function spawnFire() {
     // Só cria fogo se o livro estiver aberto
     if (!isOpen) return;
@@ -187,38 +188,55 @@ function spawnFire() {
     const flame = document.createElement("div");
     flame.classList.add("fire");
 
-    // Posicionar a chama no centro do livro aberto
+    // Definir posição inicial
     flame.style.left = `${startX}px`;
     flame.style.top = `${startY}px`;
 
-    // Tamanho aleatório para variedade
+    // Tamanho aleatório
     const size = Math.random() * 12 + 6;
     flame.style.width = `${size}px`;
     flame.style.height = `${size}px`;
 
+    // Trajetória aleatória
+    const tx = (Math.random() - 0.5) * 60;   // horizontal
+    const tyStart = 0;                        // começo no centro
+    const tyEnd = -150 - Math.random() * 50;  // sobe até ~150-200px
+
+    flame.style.setProperty('--tx', `${tx}px`);
+    flame.style.setProperty('--ty-start', `${tyStart}px`);
+    flame.style.setProperty('--ty-end', `${tyEnd}px`);
+
+    // Animação
+    const duration = Math.random() * 2 + 2; // 2 a 4s
+    flame.style.animation = `floatUpFire ${duration}s ease-out forwards`;
+
     // Adicionar ao body
     document.body.appendChild(flame);
 
-    // Remover automaticamente após a animação
-    setTimeout(() => flame.remove(), 1200);
+    // Remover após animação
+    setTimeout(() => flame.remove(), duration * 1000);
 }
 
-// Começar fogo
+// Iniciar o fogo
 function startFire() {
-    if (fireInterval) return;
-    fireInterval = setInterval(spawnFire, 80);
+    if (fireInterval) return; // já ativo
+    fireInterval = setInterval(spawnFire, 80); // cria uma chama a cada 80ms
 }
 
-// Parar fogo
+// Parar o fogo
 function stopFire() {
-    clearInterval(fireInterval);
-    fireInterval = null;
+    if (fireInterval) {
+        clearInterval(fireInterval);
+        fireInterval = null;
+    }
 }
 
+// Alternar fogo
 function toggleFire() {
     if (fireInterval) stopFire();
     else startFire();
 }
+
 
 
 
