@@ -181,12 +181,12 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
 #particleOrigin {
     position: absolute;
-    top: 50%;          /* centro vertical do livro */
-    left: 50%;         /* centro horizontal do livro */
+    left: 50%;
+    top: 50%;
     width: 0;
     height: 0;
     pointer-events: none;
-    transform: translate(-50%, -50%); /* centraliza exatamente sobre o ponto */
+    transform: translate(-50%, -50%);
 }
 
 
