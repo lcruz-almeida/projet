@@ -50,7 +50,10 @@ function toggleBook() {
     
 // CRIAR PARTÍCULAS MÁGICAS
 function createParticle() {
-    if (!isOpen) return;
+    if (!isOpen) return; // mantém isto
+
+    const originEl = document.getElementById('particleOrigin');
+    if (!originEl) return; // evita erro se o elemento não existir
 
     const particle = document.createElement('div');
     particle.classList.add('particle');
@@ -67,9 +70,12 @@ function createParticle() {
     particle.style.background = color;
     particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
-    const origin = document.getElementById('particleOrigin').getBoundingClientRect();
+    const origin = originEl.getBoundingClientRect();
     const startX = origin.left + origin.width / 2;
     const startY = origin.top + origin.height / 2;
+
+    particle.style.left = `${startX}px`;
+    particle.style.top = `${startY}px`;
 
     const tx = (Math.random() - 0.5) * 120;
     const txEnd = (Math.random() - 0.5) * 700;
@@ -81,7 +87,6 @@ function createParticle() {
     particle.style.animation = `floatUp ${duration}s ease-out forwards`;
 
     document.body.appendChild(particle);
-
     setTimeout(() => particle.remove(), duration * 1000);
 }
 
