@@ -180,21 +180,21 @@ function toggleFire() {
     if (fireInterval) stopFire();
     else startFire();
 }
-
 function resetBook() {
     // Fecha o livro
     isOpen = false;
     bookContainer.classList.remove('open');
 
-    // Para partículas mágicas
-    if (typeof stopMagic === "function") {
-        stopMagic();
+    // DESATIVAR SEMPRE o dark mode
+    if (document.body.classList.contains('dark-mode')) {
+        document.body.classList.remove('dark-mode');
     }
 
+    // Para partículas mágicas
+    if (typeof stopMagic === "function") stopMagic();
+
     // Para fogo
-    if (typeof stopFire === "function") {
-        stopFire();
-    }
+    if (typeof stopFire === "function") stopFire();
 
     // Para Lumière
     if (lumiereInterval) {
@@ -202,11 +202,9 @@ function resetBook() {
         lumiereInterval = null;
     }
 
-     // DESATIVAR SEMPRE o dark mode
-document.body.classList.remove("dark-mode");
-
     // Remove TODAS as partículas do ecrã
     document.querySelectorAll('.particle, .fire, .lumiere-particle').forEach(el => el.remove());
 }
+
 
 
