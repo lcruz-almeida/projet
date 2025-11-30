@@ -155,11 +155,19 @@ function flyPages() {
     });
 }
 
-// BUTTON SECOUER
 function shakeBook() {
-    if (!isOpen) toggleBook();
-    bookContainer.classList.add('shake');
-    setTimeout(() => bookContainer.classList.remove('shake'), 500);
+    if (!isOpen) {
+        toggleBook(); // abre o livro
+        // espera 1.2s até a animação do livro abrir
+        setTimeout(() => {
+            bookContainer.classList.add('shake');
+            setTimeout(() => bookContainer.classList.remove('shake'), 500);
+        }, 1200);
+    } else {
+        // se já estiver aberto
+        bookContainer.classList.add('shake');
+        setTimeout(() => bookContainer.classList.remove('shake'), 500);
+    }
 }
 
 
