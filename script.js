@@ -162,8 +162,6 @@ function resetBook() {
 // 🔥 FOGO DENTRO DO LIVRO
 // ==========================
 
-let fireInterval = null;
-
 function spawnFire() {
     const rect = bookContainer.getBoundingClientRect();
 
