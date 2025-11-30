@@ -134,10 +134,9 @@ function flyPages() {
     });
 }
 
-function shakeBook() {
-    const wrapper = document.getElementById('bookWrapper');
-    wrapper.classList.add('shake');
-    setTimeout(() => wrapper.classList.remove('shake'), 500);
+function shakeBook(){
+    bookContainer.classList.add('shake');
+    setTimeout(() => bookContainer.classList.remove('shake'), 500);
 
 }
 
