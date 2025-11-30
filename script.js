@@ -187,8 +187,9 @@ function spawnFire() {
     flame.classList.add("fire");
 
     // Definir posição inicial
-    flame.style.left = `${startX}px`;
-    flame.style.top = `${startY}px`;
+   flame.style.left = `${startX}px`;
+   flame.style.top = `${startY}px`;
+
 
     // Tamanho aleatório
     const size = Math.random() * 20 + 10;
