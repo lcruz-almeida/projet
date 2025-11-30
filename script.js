@@ -104,8 +104,8 @@ function rainbowParticles() {
 
 function startMagic() {
     stopMagic();
-    for(let i = 0; i < 50; i++) setTimeout(createParticle, i * 25);
-    particleInterval = setInterval(createParticle, 25);
+    for (let i = 0; i < 100; i++) setTimeout(createParticle, i * 15);
+    particleInterval = setInterval(createParticle, 15);
 }
 
 function stopMagic() {
