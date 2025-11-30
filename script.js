@@ -50,16 +50,18 @@ function toggleBook() {
     
 // CRIAR PARTÍCULAS MÁGICAS
 function createParticle() {
-    if (!isOpen) return; 
+    if (!isOpen) return; // só cria partículas se o livro estiver aberto
 
     const particle = document.createElement('div');
     particle.classList.add('particle');
 
+    // tamanho aleatório
     const size = Math.random() * 12 + 4;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
 
-    let currentColors = body.classList.contains('dark-mode')
+    // cores mágicas
+    const currentColors = body.classList.contains('dark-mode')
         ? ['#ffffff', '#cfcfcf', '#a0a0ff', '#ffd700', '#e0e0ff']
         : colors;
 
@@ -67,26 +69,33 @@ function createParticle() {
     particle.style.background = color;
     particle.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
-    const bookRect = bookContainer.getBoundingClientRect();
-    const startX = bookRect.left + bookRect.width / 2;
-    const startY = bookRect.top + bookRect.height / 2;
-
+    // posição inicial: centro da lombada
+    const spineEl = document.getElementById('spineOrigin');
+    if (!spineEl) return; // evita erro se o elemento não existir
+    const spineRect = spineEl.getBoundingClientRect();
+    const startX = spineRect.left + spineRect.width / 2;
+    const startY = spineRect.top + spineRect.height / 2;
 
     particle.style.left = `${startX}px`;
     particle.style.top = `${startY}px`;
 
+    // trajetórias aleatórias
     const tx = (Math.random() - 0.5) * 120;
     const txEnd = (Math.random() - 0.5) * 700;
-
     particle.style.setProperty('--tx', `${tx}px`);
     particle.style.setProperty('--tx-end', `${txEnd}px`);
 
+    // animação
     const duration = Math.random() * 2 + 2;
     particle.style.animation = `floatUp ${duration}s ease-out forwards`;
 
+    // adiciona ao body
     document.body.appendChild(particle);
+
+    // remove automaticamente após animação
     setTimeout(() => particle.remove(), duration * 1000);
 }
+
 
 let particlesActive = false;
 
