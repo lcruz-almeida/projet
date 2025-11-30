@@ -3,6 +3,9 @@ const body = document.body;
 let isOpen = false;
 let particleInterval;
 let magicTimeout;
+let fireInterval = null;
+let lumiereInterval = null;
+
 
 // Cores mágicas para partículas
 const colors = ['#ffd700', '#ff9a9e', '#a18cd1', '#ffffff', '#84fab0'];
@@ -130,6 +133,30 @@ function flyPages() {
         }, i * 100);
     });
 }
+
+function resetBook() {
+    // Fecha o livro
+    isOpen = false;
+    bookContainer.classList.remove('open');
+
+    // Para partículas mágicas
+    stopMagic();
+
+    // Para fogo
+    stopFire();
+
+    // Para halo Lumière
+    if (lumiereInterval) {
+        clearInterval(lumiereInterval);
+        lumiereInterval = null;
+    }
+
+    // Remove todas as partículas visíveis
+    document.querySelectorAll('.particle, .fire, .lumiere-particle').forEach(el => el.remove());
+}
+
+
+
 
 // ==========================
 // 🔥 FOGO DENTRO DO LIVRO
