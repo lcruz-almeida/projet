@@ -178,18 +178,16 @@ function spawnFire() {
     if (!isOpen) return;
 
     // Pegar o centro do livro aberto usando #particleOrigin
-   const origin = document.getElementById('particleOrigin').getBoundingClientRect();
-   const startX = origin.left + origin.width / 2;
-   const startY = origin.top + origin.height / 2;
+  const origin = document.getElementById('particleOrigin').getBoundingClientRect();
+  const startX = origin.left + origin.width / 2;
+  const startY = origin.top + origin.height / 2;
+    
+  flame.style.left = `${startX}px`;
+  flame.style.top = `${startY}px`;
 
     // Criar uma chama
     const flame = document.createElement("div");
     flame.classList.add("fire");
-
-    // Definir posição inicial
-   flame.style.left = `${startX}px`;
-   flame.style.top = `${startY}px`;
-
 
     // Tamanho aleatório
     const size = Math.random() * 20 + 10;
