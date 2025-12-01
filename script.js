@@ -176,10 +176,10 @@ function shakeBook() {
 function spawnFire() {
     if (!isOpen) return;
 
-    // Posição inicial tal como as partículas
-    const origin = document.getElementById('particleOrigin').getBoundingClientRect();
-    const startX = origin.left + origin.width / 2;
-    const startY = origin.top + origin.height / 2;
+    // Usando centro do livro em vez de #particleOrigin
+    const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
+    const startX = bookRect.left + bookRect.width / 2;
+    const startY = bookRect.top + bookRect.height / 2;
 
     // Criar container da chama
     const flameBox = document.createElement("div");
@@ -190,38 +190,14 @@ function spawnFire() {
     flameBox.style.transform = "translate(-50%, -50%)";
     flameBox.style.zIndex = 999;
 
-    console.log('Criando fogo em', startX, startY);
+    // Teste de visibilidade
+    flameBox.style.background = 'red';
+    flameBox.style.width = '60px';
+    flameBox.style.height = '60px';
+
+    // Adiciona ao DOM
     document.body.appendChild(flameBox);
-    flameBox.style.background = 'red'; // temporário para ver se aparece
-
-    // Criar as camadas da chama
-    flameBox.innerHTML = `
-        <div class="flame yellow circle"></div>
-        <div class="flame orange circle"></div>
-        <div class="flame red circle"></div>
-        <div class="flame white circle"></div>
-        <div class="circle blue"></div>
-        <div class="circle black"></div>
-    `;
-
-    document.body.appendChild(flameBox);
-
-    // Fazer a chama subir no ar
-    const rise = (Math.random() * 80) + 120; // 120–200px
-    flameBox.animate([
-        { transform: "translate(-50%, -50%) translateY(0)", opacity: 1 },
-        { transform: `translate(-50%, -50%) translateY(-${rise}px)`, opacity: 0 }
-    ], {
-        duration: 1200,
-        easing: "ease-out",
-        fill: "forwards"
-    });
-
-    // Remover
-    setTimeout(() => flameBox.remove(), 1300);
 }
-
-
 
 
 
