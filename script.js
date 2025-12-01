@@ -190,6 +190,10 @@ function spawnFire() {
     flameBox.style.transform = "translate(-50%, -50%)";
     flameBox.style.zIndex = 999;
 
+    console.log('Criando fogo em', startX, startY);
+    document.body.appendChild(flameBox);
+    flameBox.style.background = 'red'; // temporário para ver se aparece
+
     // Criar as camadas da chama
     flameBox.innerHTML = `
         <div class="flame yellow circle"></div>
