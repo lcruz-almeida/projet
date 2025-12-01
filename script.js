@@ -186,6 +186,27 @@ function spawnFire() {
     document.body.appendChild(flameBox);
 }
 
+// BUTTON LUMIERE
+function toggleLumiere() {
+    if (!isOpen) return;
+
+    const origin = document.getElementById('lumiereOrigin');
+
+    const beam = document.createElement('div');
+    beam.classList.add('magic-beam');
+
+    // adiciona como filho de lumiereOrigin
+    origin.appendChild(beam);
+
+    // posiciona no centro do ponto de referência
+    beam.style.position = 'absolute';
+    beam.style.left = '50%';
+    beam.style.top = '0';
+    beam.style.transform = 'translateX(-50%)';
+
+    // remove após a animação
+    setTimeout(() => beam.remove(), 2600);
+}
 
 
 
