@@ -242,9 +242,6 @@ function stopLumiere() {
 
 
 
-
-
-
 function resetBook() {
     // Fecha o livro
     isOpen = false;
@@ -266,7 +263,7 @@ function resetBook() {
     
 
     // Remove TODAS as partículas do ecrã
-    document.querySelectorAll('.particle, .fire, .lumiere-particle').forEach(el => el.remove());
+    document.querySelectorAll('.particle, .fire, .magic.beam').forEach(el => el.remove());
 }
 
 
