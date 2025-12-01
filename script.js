@@ -176,60 +176,45 @@ function shakeBook() {
 function spawnFire() {
     if (!isOpen) return;
 
-    // Centro do livro
+    // Posição inicial tal como as partículas
     const origin = document.getElementById('particleOrigin').getBoundingClientRect();
     const startX = origin.left + origin.width / 2;
     const startY = origin.top + origin.height / 2;
 
-    // Criar chama
-    const flame = document.createElement("div");
-    flame.classList.add("fire");
+    // Criar container da chama
+    const flameBox = document.createElement("div");
+    flameBox.classList.add("flame-box");
+    flameBox.style.position = "absolute";
+    flameBox.style.left = `${startX}px`;
+    flameBox.style.top = `${startY}px`;
+    flameBox.style.transform = "translate(-50%, -50%)";
+    flameBox.style.zIndex = 999;
 
-    // Definir posição inicial
-    flame.style.left = `${startX}px`;
-    flame.style.top = `${startY}px`;
+    // Criar as camadas da chama
+    flameBox.innerHTML = `
+        <div class="flame yellow circle"></div>
+        <div class="flame orange circle"></div>
+        <div class="flame red circle"></div>
+        <div class="flame white circle"></div>
+        <div class="circle blue"></div>
+        <div class="circle black"></div>
+    `;
 
-    // Tamanho aleatório
-    const size = Math.random() * 20 + 10;
-    flame.style.width = `${size}px`;
-    flame.style.height = `${size}px`;
+    document.body.appendChild(flameBox);
 
-    // Trajetória
-    const tx = (Math.random() - 0.5) * 60;
-    const txEnd = (Math.random() - 0.5) * 120;
-
-    flame.style.setProperty('--tx', `${tx}px`);
-    flame.style.setProperty('--tx-end', `${txEnd}px`);
-
-    // Animação
-    const duration = Math.random() * 1.5 + 1.2;
-    flame.style.animation = `floatUpFire ${duration}s ease-out forwards`;
-
-    // Adicionar ao body
-    document.body.appendChild(flame);
+    // Fazer a chama subir no ar
+    const rise = (Math.random() * 80) + 120; // 120–200px
+    flameBox.animate([
+        { transform: "translate(-50%, -50%) translateY(0)", opacity: 1 },
+        { transform: `translate(-50%, -50%) translateY(-${rise}px)`, opacity: 0 }
+    ], {
+        duration: 1200,
+        easing: "ease-out",
+        fill: "forwards"
+    });
 
     // Remover
-    setTimeout(() => flame.remove(), duration * 1000);
-}
-
-// Iniciar o fogo
-function startFire() {
-    if (fireInterval) return;
-    fireInterval = setInterval(spawnFire, 80);
-}
-
-// Parar o fogo
-function stopFire() {
-    if (fireInterval) {
-        clearInterval(fireInterval);
-        fireInterval = null;
-    }
-}
-
-// Alternar
-function toggleFire() {
-    if (fireInterval) stopFire();
-    else startFire();
+    setTimeout(() => flameBox.remove(), 1300);
 }
 
 
