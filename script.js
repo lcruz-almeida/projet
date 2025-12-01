@@ -200,6 +200,8 @@ function createLumiere() {
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
 
+    origin.appendChild(beam);
+
     // posição inicial: centro do lumiereOrigin
     const origin = document.getElementById('lumiereOrigin').getBoundingClientRect();
     const startX = origin.left + origin.width / 2;
