@@ -219,7 +219,6 @@ function createLumiere() {
 
 let lumiereActive = false;
 
-
 function toggleLumiere() {
     if (!isOpen) return;
 
@@ -234,7 +233,7 @@ function toggleLumiere() {
 
 function startLumiere() {
     stopLumiere();
-    for (let i = 0; i < 20; i++) setTimeout(createLumiere, i * 100); // rajadas iniciais
+    for (let i = 0; i < 100; i++) setTimeout(createLumiere, i * 100); // rajadas iniciais
     lumiereInterval = setInterval(createLumiere, 300); // feixe contínuo
 }
 
