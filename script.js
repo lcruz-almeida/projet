@@ -156,6 +156,8 @@ function flyPages() {
     });
 }
 
+
+// BUTTON SECOUER
 function shakeBook() {
     if (!isOpen) {
         toggleBook(); // abre o livro
@@ -187,8 +189,8 @@ function spawnFire() {
     document.body.appendChild(flameBox);
 }
 
+
 // BUTTON LUMIERE
-// --- BUTTON LUMIERE ---
 function createLumiere() {
     if (!isOpen) return; // só cria feixe se o livro estiver aberto
 
