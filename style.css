@@ -336,8 +336,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
 
 /* --- LUMIERE --- */
-#lumiereOrigin {
-  .magic-beam {
+.magic-beam {
     position: absolute;         /* position absolue par rapport au body */
     width: 0;
     height: 0;
