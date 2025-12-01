@@ -189,17 +189,6 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
     transform: translate(-50%, -50%);
 }
 
- #lumiereOrigin {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-}
-
-
 
 .p1 { z-index: 15; }
 .p2 { z-index: 14; }
