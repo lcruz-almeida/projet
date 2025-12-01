@@ -174,50 +174,48 @@ function shakeBook() {
 
 // BUTTON FEU
 function spawnFire() {
-    // Só cria fogo se o livro estiver aberto
     if (!isOpen) return;
 
-    // Pegar o centro do livro aberto usando #particleOrigin
-  const origin = document.getElementById('particleOrigin').getBoundingClientRect();
-  const startX = origin.left + origin.width / 2;
-  const startY = origin.top + origin.height / 2;
-    
-  flame.style.left = `${startX}px`;
-  flame.style.top = `${startY}px`;
+    // Centro do livro
+    const origin = document.getElementById('particleOrigin').getBoundingClientRect();
+    const startX = origin.left + origin.width / 2;
+    const startY = origin.top + origin.height / 2;
 
-    // Criar uma chama
+    // Criar chama
     const flame = document.createElement("div");
     flame.classList.add("fire");
+
+    // Definir posição inicial
+    flame.style.left = `${startX}px`;
+    flame.style.top = `${startY}px`;
 
     // Tamanho aleatório
     const size = Math.random() * 20 + 10;
     flame.style.width = `${size}px`;
     flame.style.height = `${size}px`;
 
-    // Trajetória aleatória
-    const tx = (Math.random() - 0.5) * 60;   // horizontal
-    const tyStart = 0;                        // começo no centro
-    const tyEnd = -150 - Math.random() * 50;  // sobe até ~150-200px
+    // Trajetória
+    const tx = (Math.random() - 0.5) * 60;
+    const txEnd = (Math.random() - 0.5) * 120;
 
     flame.style.setProperty('--tx', `${tx}px`);
-    flame.style.setProperty('--ty-start', `${tyStart}px`);
-    flame.style.setProperty('--ty-end', `${tyEnd}px`);
+    flame.style.setProperty('--tx-end', `${txEnd}px`);
 
     // Animação
-    const duration = Math.random() * 2 + 2; // 2 a 4s
+    const duration = Math.random() * 1.5 + 1.2;
     flame.style.animation = `floatUpFire ${duration}s ease-out forwards`;
 
     // Adicionar ao body
     document.body.appendChild(flame);
 
-    // Remover após animação
+    // Remover
     setTimeout(() => flame.remove(), duration * 1000);
 }
 
 // Iniciar o fogo
 function startFire() {
-    if (fireInterval) return; // já ativo
-    fireInterval = setInterval(spawnFire, 80); // cria uma chama a cada 80ms
+    if (fireInterval) return;
+    fireInterval = setInterval(spawnFire, 80);
 }
 
 // Parar o fogo
@@ -228,11 +226,12 @@ function stopFire() {
     }
 }
 
-// Alternar fogo
+// Alternar
 function toggleFire() {
     if (fireInterval) stopFire();
     else startFire();
 }
+
 
 
 
