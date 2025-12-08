@@ -180,22 +180,22 @@ function shakeBook() {
 function createLumiere() {
     if (!isOpen) return;
 
-    const book = document.getElementById('bookContainer');
+    const spine = document.querySelector('.spine'); // lombada do livro
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
 
-    // adiciona dentro do livro, não no body
-    book.appendChild(beam);
+    // adiciona à lombada (ou front-cover)
+    spine.appendChild(beam);
 
-    // posição central do book-container
+    // centraliza
     beam.style.position = 'absolute';
     beam.style.left = '50%';
     beam.style.top = '50%';
     beam.style.transform = 'translate(-50%, -50%)';
 
-    // remove após animação
     setTimeout(() => beam.remove(), 2600);
 }
+
 
 
 let lumiereActive = false;
