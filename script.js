@@ -332,7 +332,8 @@ function startWriting() {
         // letra aleatória
         letter.textContent = letters.charAt(Math.floor(Math.random() * letters.length));
 
-        letter.style.color = 'red';
+        const colors = ['red','blue','green','yellow','pink'];
+        letter.style.color = colors[Math.floor(Math.random() * colors.length)];
 
         // posição inicial dentro do livro
         const x = bookRect.left + Math.random() * bookRect.width;
