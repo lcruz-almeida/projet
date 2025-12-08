@@ -180,22 +180,23 @@ function shakeBook() {
 function createLumiere() {
     if (!isOpen) return;
 
-    const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
+    const book = document.getElementById('bookContainer');
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
 
-    // posição inicial: centro do livro
-    const startX = bookRect.left + bookRect.width / 2;
-    const startY = bookRect.top + bookRect.height / 2;
-    beam.style.left = `${startX}px`;
-    beam.style.top = `${startY}px`;
-    beam.style.transform = 'translateX(-50%)';
+    // adiciona dentro do livro, não no body
+    book.appendChild(beam);
 
-    document.body.appendChild(beam);
+    // posição central do book-container
+    beam.style.position = 'absolute';
+    beam.style.left = '50%';
+    beam.style.top = '50%';
+    beam.style.transform = 'translate(-50%, -50%)';
 
     // remove após animação
     setTimeout(() => beam.remove(), 2600);
 }
+
 
 let lumiereActive = false;
 
