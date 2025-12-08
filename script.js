@@ -281,8 +281,6 @@ function startFire() {
 
     document.body.appendChild(fireBox);
 
-    // Étincelles en continu
-    sparkLoop = setInterval(spawnSpark, 90);
 }
 
 function stopFire() {
