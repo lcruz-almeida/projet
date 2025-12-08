@@ -310,16 +310,18 @@ function spawnSpark() {
 
 
 // BUTTON ECRITURE
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 let writingActive = false;
-let writingInterval;
-
-// todas as letras do alfabeto
-const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+let writingInterval = null;
 
 function startWriting() {
-    if (!isOpen) toggleBook(); // abre o livro se fechado
+    if (!isOpen) toggleBook(); // abre o livro se estiver fechado
 
-    if (writingActive) return; // não iniciar múltiplas vezes
+    if (writingActive) {
+        stopWriting();
+        return;
+    }
+
     writingActive = true;
 
     writingInterval = setInterval(() => {
@@ -330,8 +332,7 @@ function startWriting() {
         // letra aleatória
         letter.textContent = letters.charAt(Math.floor(Math.random() * letters.length));
 
-        // cor aleatória
-        const colors = ['#FFD700', '#FF4500', '#00FFFF', '#FF69B4', '#FFFFFF', '#7CFC00'];
+        const colors = ['red','blue','green','yellow','pink'];
         letter.style.color = colors[Math.floor(Math.random() * colors.length)];
 
         // posição inicial dentro do livro
@@ -346,9 +347,9 @@ function startWriting() {
 
         document.body.appendChild(letter);
 
-        // remove após 10 segundos
+        // remove após 5s
         setTimeout(() => letter.remove(), 10000);
-    }, 100);
+    }, 100); // cria várias letras por segundo
 }
 
 function stopWriting() {
@@ -359,7 +360,6 @@ function stopWriting() {
     // remove todas as letras existentes
     document.querySelectorAll('.bouncing-letter').forEach(el => el.remove());
 }
-
 
 
 
