@@ -177,11 +177,6 @@ function shakeBook() {
 
 
 // BUTTON LUMIERE
-
-let lumiereActive = false;
-let lumiereInterval = null;
-let lumiereTimeouts = []; // guarda todos os timeouts iniciais
-
 function createLumiere() {
     if (!isOpen) return; // só cria feixe se o livro estiver aberto
 
@@ -205,6 +200,8 @@ function createLumiere() {
     setTimeout(() => beam.remove(), 2600);
 }
 
+let lumiereActive = false;
+
 function toggleLumiere() {
     if (!isOpen) return;
 
@@ -218,33 +215,15 @@ function toggleLumiere() {
 }
 
 function startLumiere() {
-    stopLumiere(); // garante que todos efeitos anteriores são cancelados
-    lumiereTimeouts = []; // limpa array de timeouts
-
-    // rajadas iniciais
-    for (let i = 0; i < 100; i++) {
-        const t = setTimeout(createLumiere, i * 100);
-        lumiereTimeouts.push(t);
-    }
-
-    // feixe contínuo
-    lumiereInterval = setInterval(createLumiere, 300);
+    stopLumiere();
+    for (let i = 0; i < 100; i++) setTimeout(createLumiere, i * 100); // rajadas iniciais
+    lumiereInterval = setInterval(createLumiere, 300); // feixe contínuo
 }
 
 function stopLumiere() {
-    // para o intervalo contínuo
-    if (lumiereInterval) {
-        clearInterval(lumiereInterval);
-        lumiereInterval = null;
-    }
-
-    // limpa todos os timeouts pendentes
-    lumiereTimeouts.forEach(t => clearTimeout(t));
-    lumiereTimeouts = [];
-
-    // remove todos os feixes ativos da tela
-    document.querySelectorAll('.magic-beam').forEach(el => el.remove());
+    if (lumiereInterval) clearInterval(lumiereInterval);
 }
+
 
 
 
