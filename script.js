@@ -225,8 +225,6 @@ function stopLumiere() {
 }
 
 
-
-
 // BUTTON FEU
 function spawnFire() {
     const flameBox = document.createElement("div");
@@ -309,6 +307,57 @@ function spawnSpark() {
 
     setTimeout(() => s.remove(), 1200);
 }
+
+
+// BUTTON ECRITURE
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+let writingActive = false;
+let writingInterval = null;
+
+function startWriting() {
+    if (!isOpen) toggleBook(); // abre o livro se estiver fechado
+
+    if (writingActive) {
+        stopWriting();
+        return;
+    }
+
+    writingActive = true;
+
+    writingInterval = setInterval(() => {
+        const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
+        const letter = document.createElement('div');
+        letter.classList.add('bouncing-letter');
+
+        // letra aleatória
+        letter.textContent = letters.charAt(Math.floor(Math.random() * letters.length));
+
+        // posição inicial dentro do livro
+        const x = bookRect.left + Math.random() * bookRect.width;
+        const y = bookRect.top + Math.random() * bookRect.height;
+        letter.style.left = `${x}px`;
+        letter.style.top = `${y}px`;
+
+        // animação inicial aleatória
+        const scale = 0.5 + Math.random();
+        letter.style.transform = `scale(${scale}) rotate(${Math.random() * 360}deg)`;
+
+        document.body.appendChild(letter);
+
+        // remove após 5s
+        setTimeout(() => letter.remove(), 5000);
+    }, 100); // cria várias letras por segundo
+}
+
+function stopWriting() {
+    writingActive = false;
+    if (writingInterval) clearInterval(writingInterval);
+    writingInterval = null;
+
+    // remove todas as letras existentes
+    document.querySelectorAll('.bouncing-letter').forEach(el => el.remove());
+}
+
 
 
 
