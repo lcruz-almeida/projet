@@ -325,7 +325,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
     100% { transform: translate(-50%, -80px) scale(1.8); opacity: 0; }
 }
 
-/* RUNES */
+/* RUNE */
 .inner-page {
     position: relative;
     overflow: hidden;
@@ -342,7 +342,6 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
     transform: scale(0.5) rotate(0deg);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
 
 
 /* --- SECOUER--- */
