@@ -388,7 +388,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
     position: absolute;
     font-size: 24px;
     font-family: 'Georgia', serif;
-    color: var(--gold);
+    color: red;
     user-select: none;
     pointer-events: none;
     text-shadow: 0 0 8px var(--gold), 0 0 16px var(--gold);
