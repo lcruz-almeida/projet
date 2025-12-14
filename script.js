@@ -230,15 +230,19 @@ function createLumiere() {
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
 
-    document.body.appendChild(beam); // adiciona ao body
+    // adiciona ao container do livro
+    const book = document.getElementById('bookContainer');
+    book.appendChild(beam);
 
-    const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
-    beam.style.left = `${bookRect.left + bookRect.width / 2}px`;
-    beam.style.top = `${bookRect.top + bookRect.height / 2}px`;
+    // centraliza sobre o livro
+    beam.style.position = 'absolute';
+    beam.style.left = '50%';
+    beam.style.top = '50%';
     beam.style.transform = 'translate(-50%, -50%)';
 
     setTimeout(() => beam.remove(), 2600);
 }
+
 
 let lumiereActive = false;
 
