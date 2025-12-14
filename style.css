@@ -388,6 +388,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
 
 
+
 /* --- ECRITURE --- */
 .bouncing-letter {
     position: absolute;
