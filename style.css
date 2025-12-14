@@ -365,21 +365,26 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
 /* LUMIÈRE */
 .magic-light {
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, rgba(255,255,200,0.7) 0%, transparent 70%);
+    position: fixed; /* para seguir a viewport */
+    width: 500px;    /* maior largura */
+    height: 500px;   /* maior altura */
+    left: 0;
+    top: 0;
+    background: radial-gradient(circle, rgba(255,255,220,0.9) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
-    filter: blur(15px) brightness(2);
-    animation: lightPulse 1s ease-out forwards;
+    filter: blur(30px) brightness(4); /* mais blur e brilho */
     z-index: 9999;
+    animation: lightPulse 1s ease-out forwards;
+    opacity: 1;
 }
 
 @keyframes lightPulse {
-    0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.6; }
-    50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+    0%   { transform: scale(0.3); opacity: 0.9; }
+    50%  { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
 }
+
 
 
 /* --- ECRITURE --- */
