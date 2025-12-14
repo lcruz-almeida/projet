@@ -4,8 +4,6 @@ let isOpen = false;
 let particleInterval;
 let magicTimeout;
 let fireInterval = null;
-let lumiereActive = false;
-let lumiereInterval = null;
 
 
 // Cores mágicas para partículas
@@ -223,8 +221,11 @@ function shakeBook() {
 
 
 
+
 // BUTTON LUMIERE
-// BUTTON LUMIERE
+let lumiereActive = false;
+let lumiereInterval = null;
+
 function createMagicLight() {
     if (!isOpen) return;
 
