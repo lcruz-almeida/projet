@@ -235,7 +235,7 @@ function createMagicLight() {
 
     // Pega o centro do livro na viewport
     const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
-    const x = bookRect.left + bookRect.width / 2-40;
+    const x = bookRect.left + bookRect.width / 2-80;
     const y = bookRect.top + bookRect.height / 2;
 
     light.style.left = `${x}px`;
