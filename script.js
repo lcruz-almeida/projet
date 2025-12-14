@@ -140,6 +140,11 @@ function flyPages() {
     const repeat = 10; // cada página vai se repetir 10 vezes
     const totalClones = pages.length * repeat;
 
+    const windSound = document.getElementById('soundWind');
+    windSound.currentTime = 0;
+    windSound.play().catch(e => console.log("Erro de áudio: " + e));
+
+
     for (let i = 0; i < totalClones; i++) {
         setTimeout(() => {
             const page = pages[i % pages.length]; // pega página original ou repete
@@ -172,6 +177,12 @@ function flyPages() {
             setTimeout(() => flyingPage.remove(), 4000);
         }, i * 50); // pequenas diferenças de tempo
     }
+    
+     // Para o som após todas as páginas terminarem
+    setTimeout(() => {
+        windSound.pause();
+        windSound.currentTime = 0;
+    }, 4000 + totalClones * 50);
 }
 
 
