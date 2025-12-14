@@ -373,7 +373,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
     background: radial-gradient(circle, rgba(255,255,220,0.9) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
-    filter: blur(30px) brightness(4); /* mais blur e brilho */
+    filter: blur(30px) brightness(10); /* mais blur e brilho */
     z-index: 9999;
     animation: lightPulse 1s ease-out forwards;
     opacity: 1;
@@ -382,7 +382,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 @keyframes lightPulse {
     0%   { transform: scale(0.3); opacity: 0.9; }
     50%  { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
+    100% { transform: scale(2); opacity: 1; }
 }
 
 
