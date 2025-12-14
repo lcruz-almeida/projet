@@ -248,7 +248,7 @@ button:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 }
 
 .shake { 
-    animation: shakeOpen 1s; /* antes era 0.5s */
+    animation: shakeOpen 2s; 
 }
 
 
