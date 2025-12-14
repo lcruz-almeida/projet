@@ -221,13 +221,11 @@ function shakeBook() {
 }
 
 
-
-
 // BUTTON LUMIERE
 let lumiereActive = false;
 let lumiereInterval = null;
 
-// Cria um feixe de luz simples
+// Cria um feixe de luz simples centralizado sobre o livro
 function createLumiere() {
     if (!isOpen) return;
 
@@ -239,9 +237,6 @@ function createLumiere() {
 
     const book = document.getElementById('bookContainer');
     const rect = book.getBoundingClientRect();
-    beam.style.left = `${rect.left + rect.width / 2}px`;
-    beam.style.top = `${rect.top + rect.height / 2}px`;
-    beam.style.transform = 'translate(-50%, -50%)';
 
     // centraliza sobre o livro
     beam.style.left = `${rect.left + rect.width / 2}px`;
@@ -272,7 +267,9 @@ function startLumiere() {
     stopLumiere();
 
     // Rajadas iniciais rápidas
-    for (let i = 0; i < 100; i++) setTimeout(createLumiere, i * 100);
+    for (let i = 0; i < 100; i++) {
+        setTimeout(createLumiere, i * 100);
+    }
 
     // Rajadas contínuas
     lumiereInterval = setInterval(createLumiere, 300);
