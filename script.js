@@ -223,26 +223,30 @@ function shakeBook() {
 
 
 // BUTTON LUMIERE
+// BUTTON LUMIERE
 function createLumiere() {
     if (!isOpen) return;
 
+    // cria o feixe
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
+
+    // adiciona ao body
     document.body.appendChild(beam);
 
-    const rect = bookContainer.getBoundingClientRect();
+    // pega o ponto de origem das partículas
+    const origin = document.getElementById('particleOrigin').getBoundingClientRect();
+    const x = origin.left + origin.width / 2;
+    const y = origin.top + origin.height / 2;
 
-    beam.style.position = 'fixed'; // fica fixo na viewport
-    beam.style.left = `${rect.left + rect.width / 2}px`;
-    beam.style.top = `${rect.top + rect.height / 2}px`;
+    beam.style.left = `${x}px`;
+    beam.style.top = `${y}px`;
+    beam.style.position = 'fixed';
     beam.style.transform = 'translate(-50%, -50%)';
     beam.style.zIndex = 9999;
 
-    // Garante que a opacidade inicial seja visível
-    beam.style.opacity = 1;
-
-    // Remove após animação
-    setTimeout(() => beam.remove(), 2600);
+    // remove após 1s
+    setTimeout(() => beam.remove(), 1000);
 }
 
 
