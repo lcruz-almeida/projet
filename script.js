@@ -357,6 +357,7 @@ function startWriting() {
     }
 
     writingActive = true;
+    playSound("soundWriting");
 
     writingInterval = setInterval(() => {
         const bookRect = document.getElementById('bookContainer').getBoundingClientRect();
@@ -393,6 +394,8 @@ function stopWriting() {
 
     // remove todas as letras existentes
     document.querySelectorAll('.bouncing-letter').forEach(el => el.remove());
+
+    stopSound("soundWriting");
 }
 
 
