@@ -233,10 +233,10 @@ function createMagicLight() {
     light.classList.add('magic-light');
     document.body.appendChild(light);
 
-    // pega o centro do livro
-    const rect = bookContainer.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
+    // Usa a mesma origem que as partículas
+    const origin = document.getElementById('particleOrigin').getBoundingClientRect();
+    const x = origin.left + origin.width / 2;
+    const y = origin.top + origin.height / 2;
 
     light.style.left = `${x}px`;
     light.style.top = `${y}px`;
@@ -244,9 +244,9 @@ function createMagicLight() {
     light.style.transform = 'translate(-50%, -50%)';
     light.style.zIndex = 9999;
 
-    // remove após animação
     setTimeout(() => light.remove(), 1000);
 }
+
 
 function toggleLumiere() {
     if (!isOpen) return;
