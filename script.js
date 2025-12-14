@@ -133,44 +133,59 @@ function stopMagic() {
 }
 
 // BUTTON VENT
-function flyPages() {
+let windActive = false;
+
+function flyPagesWithSound() {
+    if (!isOpen) return;
 
     const pageCount = 20;
     const pages = document.querySelectorAll('.page:not(.front-cover):not(.back-cover)');
 
-    
-            for (let i = 0; i < pageCount; i++) {
+    if (!windActive) {
+        windActive = true;
+        playSound("soundWind"); // inicia som de vento
+
+        for (let i = 0; i < pageCount; i++) {
+            setTimeout(() => {
+                const page = pages[i % pages.length];
+                const flyingPage = page.cloneNode(true);
+                const rect = page.getBoundingClientRect();
+
+                flyingPage.style.position = 'absolute';
+                flyingPage.style.left = `${rect.left}px`;
+                flyingPage.style.top = `${rect.top}px`;
+                flyingPage.style.width = `${rect.width}px`;
+                flyingPage.style.height = `${rect.height}px`;
+                flyingPage.style.zIndex = 1000;
+                flyingPage.style.pointerEvents = 'none';
+                flyingPage.style.transition = 'transform 4s ease-out, opacity 4s ease-out';
+
+                document.body.appendChild(flyingPage);
+
+                // Trajetória aleatória
+                const endX = (Math.random() - 0.5) * window.innerWidth * 2;
+                const endY = (Math.random() - 0.5) * window.innerHeight * 2;
+                const rotateX = (Math.random() - 0.5) * 1080;
+                const rotateY = (Math.random() - 0.5) * 1080;
+
+                requestAnimationFrame(() => {
+                    flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    flyingPage.style.opacity = 0;
+                });
+
+                // Remove o clone após 4s
+                setTimeout(() => flyingPage.remove(), 4000);
+
+            }, i * 50); // pequenas diferenças de tempo
+        }
+
+        // Para o som automaticamente após todas as páginas voarem
         setTimeout(() => {
-            const page = pages[i % pages.length]; 
-            const flyingPage = page.cloneNode(true);
-            const rect = page.getBoundingClientRect();
+            stopSound("soundWind");
+            windActive = false;
+        }, 4000 + pageCount * 50);
 
-            flyingPage.style.position = 'absolute';
-            flyingPage.style.left = `${rect.left}px`;
-            flyingPage.style.top = `${rect.top}px`;
-            flyingPage.style.width = `${rect.width}px`;
-            flyingPage.style.height = `${rect.height}px`;
-            flyingPage.style.zIndex = 1000;
-            flyingPage.style.pointerEvents = 'none';
-            flyingPage.style.transition = 'transform 4s ease-out, opacity 4s ease-out';
-
-            document.body.appendChild(flyingPage);
-
-            // Trajetória aleatória simulando vento
-            const endX = (Math.random() - 0.5) * window.innerWidth * 2;
-            const endY = (Math.random() - 0.5) * window.innerHeight * 2;
-            const rotateX = (Math.random() - 0.5) * 1080;
-            const rotateY = (Math.random() - 0.5) * 1080;
-
-            requestAnimationFrame(() => {
-                flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                flyingPage.style.opacity = 0;
-            });
-
-            setTimeout(() => flyingPage.remove(), 4000);
-        }, i * 50);
-    });
-    
+    }
 }
 
 
