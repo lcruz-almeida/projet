@@ -201,7 +201,7 @@ function shakeBook() {
         setTimeout(() => {
             bookContainer.classList.remove('shake');
             stopSound("soundShake");
-        }, 500);
+        }, 1000);
     }
 }
 
