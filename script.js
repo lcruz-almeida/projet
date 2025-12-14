@@ -107,18 +107,13 @@ function createParticle() {
 
 let particlesActive = false;
 
-function rainbowParticles() {
-    if (!isOpen) return; // Só funciona se o livro estiver aberto
-
-    if (!particlesActive) {
-        startMagic();
-        playSound("soundParticles"); 
-        particlesActive = true;
-    } else {
-        stopMagic();
-        stopSound("soundParticles");
-        particlesActive = false;
-    }
+// ==================== FUNÇÃO DO BOTÃO ====================
+function rainbowParticlesButton() {
+    if (!isOpen) return;          // só se o livro estiver aberto
+    stopAllEffects();              // para qualquer efeito ativo
+    startMagic();                  // inicia partículas
+    playSound("soundParticles");   // toca som
+    particlesActive = true;
 }
 
 function startMagic() {
@@ -130,6 +125,7 @@ function startMagic() {
 function stopMagic() {
     if (particleInterval) clearInterval(particleInterval);
 }
+
 
 // BUTTON VENT
 function flyPages() {
@@ -432,6 +428,37 @@ function stopWriting() {
 
 
 
+// ===================== PARA TODOS OS EFEITOS =====================
+function stopAllEffects() {
+    // Partículas
+    stopMagic();
+    stopSound("soundParticles");
+    particlesActive = false;
+
+    // Fogo
+    stopFire();
+    fireActive = false;
+
+    // Lumière
+    toggleLumiere(true); // forçar desligar
+    lumiereActive = false;
+
+    // Escrita
+    stopWriting();
+    writingActive = false;
+
+    // Vento
+    const windSound = document.getElementById('soundWind');
+    if (windSound) {
+        windSound.pause();
+        windSound.currentTime = 0;
+    }
+
+    // Remove elementos visuais que podem sobrar
+    document.querySelectorAll('.particle, .fire-container, .magic-light, .bouncing-letter').forEach(el => el.remove());
+}
+
+// ===================== RESET DO LIVRO =====================
 function resetBook() {
     // Fecha o livro
     isOpen = false;
@@ -442,22 +469,9 @@ function resetBook() {
         document.body.classList.remove('dark-mode');
     }
 
-    // Para partículas mágicas
-    if (typeof stopMagic === "function") stopMagic();
-
-    // Para fogo
-    if (typeof stopFire === "function") stopFire();
-
-    // Para Lumière
-    if (typeof stopLumiere === "function") stopLumiere();
-
-    // Para  Écriture
-    if (typeof stopWriting === "function") stopWriting();
-    
-
-    // Remove TODAS as partículas do ecrã
-    document.querySelectorAll('.particle, .fire, .magic.beam').forEach(el => el.remove());   
- }
+    // Para todos os efeitos ativos
+    stopAllEffects();
+}
 
 
 
