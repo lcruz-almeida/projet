@@ -239,6 +239,9 @@ function createLumiere() {
 
     const book = document.getElementById('bookContainer');
     const rect = book.getBoundingClientRect();
+    beam.style.left = `${rect.left + rect.width / 2}px`;
+    beam.style.top = `${rect.top + rect.height / 2}px`;
+    beam.style.transform = 'translate(-50%, -50%)';
 
     // centraliza sobre o livro
     beam.style.left = `${rect.left + rect.width / 2}px`;
