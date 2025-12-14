@@ -223,7 +223,6 @@ function shakeBook() {
 
 
 // BUTTON LUMIERE
-// BUTTON LUMIERE
 let lumiereActive = false;
 let lumiereInterval = null;
 
@@ -252,23 +251,23 @@ function createMagicLight() {
 function toggleLumiere() {
     if (!isOpen) return;
 
+    const audioId = "soundLumiere";
+    const audio = document.getElementById(audioId);
+
     if (!lumiereActive) {
-        startLumiere();
+        // Toca o som
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Erro de áudio: " + e));
+        }
+        lumiereActive = true;
     } else {
-        stopLumiere();
-    }
-    lumiereActive = !lumiereActive;
-}
-
-function startLumiere() {
-    stopLumiere();
-    lumiereInterval = setInterval(createMagicLight, 300); // rajadas contínuas
-}
-
-function stopLumiere() {
-    if (lumiereInterval) {
-        clearInterval(lumiereInterval);
-        lumiereInterval = null;
+        // Para o som
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+        lumiereActive = false;
     }
 }
 
