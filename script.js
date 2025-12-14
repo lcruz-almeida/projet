@@ -223,8 +223,6 @@ function shakeBook() {
 
 
 // BUTTON LUMIERE
-let lumiereActive = false;
-let lumiereInterval = null;
 function createMagicLight() {
     if (!isOpen) return;
 
@@ -232,20 +230,24 @@ function createMagicLight() {
     light.classList.add('magic-light');
     document.body.appendChild(light);
 
-    // MESMO PONTO QUE AS PARTICULAS
     const origin = document.getElementById('particleOrigin').getBoundingClientRect();
     const x = origin.left + origin.width / 2;
     const y = origin.top + origin.height / 2;
 
     light.style.left = `${x}px`;
     light.style.top = `${y}px`;
-    light.style.position = 'fixed'; // não se move com scroll
+    light.style.position = 'fixed';
     light.style.transform = 'translate(-50%, -50%)';
+    light.style.width = '200px';
+    light.style.height = '200px';
+    light.style.borderRadius = '50%';
+    light.style.background = 'radial-gradient(circle, rgba(255,255,200,0.6) 0%, transparent 80%)';
+    light.style.filter = 'blur(30px) brightness(2)';
     light.style.zIndex = 9999;
 
-    // remove após animação
     setTimeout(() => light.remove(), 1000);
 }
+
 
 
 function toggleLumiere() {
