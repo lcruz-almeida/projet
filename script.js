@@ -309,6 +309,8 @@ function startFire() {
 
     document.body.appendChild(fireBox);
 
+    playSound("soundFire");
+
 }
 
 function stopFire() {
@@ -320,6 +322,8 @@ function stopFire() {
         clearInterval(sparkLoop);
         sparkLoop = null;
     }
+    
+    stopSound("soundFire");
 }
 
 function spawnSpark() {
