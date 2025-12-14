@@ -222,60 +222,47 @@ function shakeBook() {
 
 
 // BUTTON LUMIERE
+// BUTTON LUMIERE
 let lumiereActive = false;
 let lumiereInterval = null;
 
-// Cria um feixe de luz simples centralizado sobre o livro
 function createLumiere() {
     if (!isOpen) return;
 
     const beam = document.createElement('div');
     beam.classList.add('magic-beam');
 
-    // adiciona direto ao body
     document.body.appendChild(beam);
 
     const book = document.getElementById('bookContainer');
     const rect = book.getBoundingClientRect();
 
-    // centraliza sobre o livro
-    beam.style.left = `${rect.left + rect.width / 2}px`;
-    beam.style.top = `${rect.top + rect.height / 2}px`;
-    beam.style.position = 'absolute';
+    // Centraliza o feixe sobre o livro
+    beam.style.left = `${rect.left + rect.width/2}px`;
+    beam.style.top = `${rect.top + rect.height/2}px`;
+    beam.style.position = 'fixed'; // importante para não se mover com scroll
     beam.style.transform = 'translate(-50%, -50%)';
     beam.style.zIndex = 9999;
 
-    // remove após animação
     setTimeout(() => beam.remove(), 2600);
 }
 
-// Alterna o efeito de luz
 function toggleLumiere() {
     if (!isOpen) return;
 
     if (!lumiereActive) {
         startLumiere();
-        lumiereActive = true;
     } else {
         stopLumiere();
-        lumiereActive = false;
     }
+    lumiereActive = !lumiereActive;
 }
 
-// Inicia rajadas contínuas
 function startLumiere() {
     stopLumiere();
-
-    // Rajadas iniciais rápidas
-    for (let i = 0; i < 100; i++) {
-        setTimeout(createLumiere, i * 100);
-    }
-
-    // Rajadas contínuas
     lumiereInterval = setInterval(createLumiere, 300);
 }
 
-// Para o efeito
 function stopLumiere() {
     if (lumiereInterval) {
         clearInterval(lumiereInterval);
