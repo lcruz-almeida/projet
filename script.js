@@ -11,6 +11,12 @@ let lumiereActive = false;
 let lumiereInterval = null;
 let writingActive = false;
 let writingInterval = null;
+let windTimeouts = [];
+let windInterval = null;
+let shakeActive = false;
+let shakeTimeout = null;
+
+
 
 // ========================= SONS =========================
 function playSound(audioId) {
@@ -109,23 +115,33 @@ function rainbowParticles() {
 }
 
 // ========================= VENTO =========================
+let windActive = false;
+let windTimeouts = [];
+
 function flyPages() {
     if (!isOpen) return;
-    stopAllEffects();
+
+    stopWind(); // Para qualquer vento ativo imediatamente
+
+    windActive = true;
 
     const windSound = document.getElementById('soundWind');
     windSound.currentTime = 0;
-    windSound.play().catch(e => console.log("Erro de áudio: " + e));
+    windSound.play().catch(e => console.log(e));
 
     const pages = document.querySelectorAll('.page:not(.front-cover):not(.back-cover)');
     const repeat = 10;
     const totalClones = pages.length * repeat;
 
     for (let i = 0; i < totalClones; i++) {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
+            if (!windActive) return;
+
             const page = pages[i % pages.length];
             const flyingPage = page.cloneNode(true);
             const rect = page.getBoundingClientRect();
+
+            flyingPage.classList.add('page-flying'); // Marca a página como voando
 
             flyingPage.style.position = 'absolute';
             flyingPage.style.left = `${rect.left}px`;
@@ -140,37 +156,58 @@ function flyPages() {
 
             const endX = (Math.random() - 0.5) * window.innerWidth * 2;
             const endY = (Math.random() - 0.5) * window.innerHeight * 2;
-            const rotateX = (Math.random() - 0.5) * 1080;
-            const rotateY = (Math.random() - 0.5) * 1080;
+            const rotate = (Math.random() - 0.5) * 1080;
 
             requestAnimationFrame(() => {
-                flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotate(${rotate}deg)`;
                 flyingPage.style.opacity = 0;
             });
 
+            // Remove a página do DOM depois da animação
             setTimeout(() => flyingPage.remove(), 4000);
-        }, i * 100);
-    }
 
-    setTimeout(() => {
+        }, i * 50);
+
+        windTimeouts.push(timeout);
+    }
+}
+
+function stopWind() {
+    windActive = false;
+
+    // Cancela todos os timeouts pendentes
+    windTimeouts.forEach(t => clearTimeout(t));
+    windTimeouts = [];
+
+    // Remove imediatamente todas as páginas voando
+    document.querySelectorAll('.page-flying').forEach(el => el.remove());
+
+    // Para o som
+    const windSound = document.getElementById('soundWind');
+    if (windSound) {
         windSound.pause();
         windSound.currentTime = 0;
-    }, 4000 + totalClones * 50);
+    }
 }
+
 
 // ========================= SACUDIR LIVRO =========================
 function shakeBook() {
     if (!isOpen) toggleBook();
-    stopAllEffects();
+
+    // Remove a classe antes de adicionar de novo
+    bookContainer.classList.remove('shake');
+    void bookContainer.offsetWidth; // força reflow
 
     bookContainer.classList.add('shake');
     playSound("soundShake");
 
-    setTimeout(() => {
-        bookContainer.classList.remove('shake');
-        stopSound("soundShake");
+    // Timeout para parar automaticamente após 2s
+    shakeTimeout = setTimeout(() => {
+        stopShake();
     }, 2000);
 }
+
 
 // ========================= FOGO =========================
 function startFire() {
@@ -207,36 +244,28 @@ function stopFire() {
         sparkLoop = null;
     }
     stopSound("soundFire");
+    fireActive = false;
 }
 
-function toggleFire() {
+function toggleFire(forceOff = false) {
     if (!isOpen) return;
-    stopAllEffects();
-    startFire();
-    fireActive = true;
+
+    if (forceOff || fireActive) {
+        stopFire();
+    } else {
+        // Para todos os outros efeitos antes de ativar o fogo
+        stopAllEffects();
+
+        startFire();
+        fireActive = true;
+    }
 }
+
+
+
 
 // ========================= LUMIÈRE =========================
-function createMagicLight() {
-    if (!isOpen) return;
-    const light = document.createElement('div');
-    light.classList.add('magic-light');
-
-    const bookRect = bookContainer.getBoundingClientRect();
-    const lightWidth = 300;
-    const lightHeight = 300;
-    const x = bookRect.left + bookRect.width / 2 - lightWidth / 2 - 80;
-    const y = bookRect.top + bookRect.height / 2 - lightHeight / 2;
-
-    light.style.left = `${x}px`;
-    light.style.top = `${y}px`;
-    light.style.position = 'fixed';
-    light.style.zIndex = 9999;
-    light.style.transform = 'none';
-
-    document.body.appendChild(light);
-    setTimeout(() => light.remove(), 1000);
-}
+let magicLight = null; // feixe único
 
 function toggleLumiere(forceOff = false) {
     if (!isOpen) return;
@@ -244,22 +273,38 @@ function toggleLumiere(forceOff = false) {
     const audio = document.getElementById("soundLumiere");
 
     if (forceOff || lumiereActive) {
+        // Desliga o feixe
+        if (magicLight) { magicLight.remove(); magicLight = null; }
         if (audio) { audio.pause(); audio.currentTime = 0; }
-        clearInterval(lumiereInterval);
-        lumiereInterval = null;
-        document.querySelectorAll('.magic-light').forEach(el => el.remove());
         lumiereActive = false;
     } else {
-        if (audio) { audio.currentTime = 0; audio.play().catch(e => console.log("Erro de áudio: " + e)); }
-        lumiereInterval = setInterval(createMagicLight, 200);
+        // Para todos os outros efeitos antes de ativar
+        stopAllEffects();
+
+        // Cria o feixe único
+        magicLight = document.createElement('div');
+        magicLight.classList.add('magic-light');
+
+        const bookRect = bookContainer.getBoundingClientRect();
+        const lightWidth = 25;
+        const lightHeight = 400;
+
+        const x = bookRect.left + bookRect.width / 2 - lightWidth / 2;
+        const y = bookRect.top + bookRect.height / 2 - lightHeight / 2;
+
+        magicLight.style.left = `${x}px`;
+        magicLight.style.top = `${y}px`;
+
+        document.body.appendChild(magicLight);
+
+        // Toca o som
+        if (audio) { audio.currentTime = 0; audio.play().catch(e => console.log("Erro de áudio")); }
+
         lumiereActive = true;
     }
 }
 
-function toggleLumiereButton() {
-    stopAllEffects();
-    toggleLumiere();
-}
+
 
 // ========================= ESCRITA =========================
 function startWriting() {
@@ -310,17 +355,25 @@ function stopAllEffects() {
     stopFire();
     fireActive = false;
 
+    stopWind();
+    windActive = false;
+
+    stopShake();
+    shakeActive = false;
+
     toggleLumiere(true);
     lumiereActive = false;
 
     stopWriting();
     writingActive = false;
 
-    const windSound = document.getElementById('soundWind');
-    if (windSound) { windSound.pause(); windSound.currentTime = 0; }
-
-    document.querySelectorAll('.particle, .fire-container, .magic-light, .bouncing-letter').forEach(el => el.remove());
+    document.querySelectorAll(
+        '.particle, .fire-container, .magic-light, .bouncing-letter'
+    ).forEach(el => el.remove());
 }
+
+
+
 
 // ========================= RESET LIVRO =========================
 function resetBook() {
@@ -331,3 +384,30 @@ function resetBook() {
 
     stopAllEffects();
 }
+
+function stopWind() {
+    windActive = false;
+
+    windTimeouts.forEach(t => clearTimeout(t));
+    windTimeouts = [];
+
+    const windSound = document.getElementById('soundWind');
+    if (windSound) {
+        windSound.pause();
+        windSound.currentTime = 0;
+    }
+}
+
+function stopShake() {
+    bookContainer.classList.remove('shake');
+    stopSound("soundShake");
+
+    if (shakeTimeout) {
+        clearTimeout(shakeTimeout);
+        shakeTimeout = null;
+    }
+}
+
+
+
+
