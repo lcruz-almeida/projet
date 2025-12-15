@@ -115,14 +115,11 @@ function rainbowParticles() {
 }
 
 // ========================= VENTO =========================
-let windActive = false;
-let windTimeouts = [];
-
 function flyPages() {
     if (!isOpen) return;
 
-    stopWind(); // Para qualquer vento ativo imediatamente
-
+    stopAllEffects();
+    
     windActive = true;
 
     const windSound = document.getElementById('soundWind');
@@ -134,14 +131,15 @@ function flyPages() {
     const totalClones = pages.length * repeat;
 
     for (let i = 0; i < totalClones; i++) {
+
         const timeout = setTimeout(() => {
+
+            // 🔴 se o vento foi parado, não faz nada
             if (!windActive) return;
 
             const page = pages[i % pages.length];
             const flyingPage = page.cloneNode(true);
             const rect = page.getBoundingClientRect();
-
-            flyingPage.classList.add('page-flying'); // Marca a página como voando
 
             flyingPage.style.position = 'absolute';
             flyingPage.style.left = `${rect.left}px`;
@@ -159,34 +157,17 @@ function flyPages() {
             const rotate = (Math.random() - 0.5) * 1080;
 
             requestAnimationFrame(() => {
-                flyingPage.style.transform = `translate(${endX}px, ${endY}px) rotate(${rotate}deg)`;
+                flyingPage.style.transform =
+                    `translate(${endX}px, ${endY}px) rotate(${rotate}deg)`;
                 flyingPage.style.opacity = 0;
             });
 
-            // Remove a página do DOM depois da animação
             setTimeout(() => flyingPage.remove(), 4000);
 
         }, i * 50);
 
+    
         windTimeouts.push(timeout);
-    }
-}
-
-function stopWind() {
-    windActive = false;
-
-    // Cancela todos os timeouts pendentes
-    windTimeouts.forEach(t => clearTimeout(t));
-    windTimeouts = [];
-
-    // Remove imediatamente todas as páginas voando
-    document.querySelectorAll('.page-flying').forEach(el => el.remove());
-
-    // Para o som
-    const windSound = document.getElementById('soundWind');
-    if (windSound) {
-        windSound.pause();
-        windSound.currentTime = 0;
     }
 }
 
